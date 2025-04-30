@@ -1,0 +1,22 @@
+{
+    "home" : {
+        "listen": "Dengar Muzik Yang Hebat!",
+        "description": "Temui artis dan genre baru setiap hari. Sertai kami dalam meneroka dunia muzik. Bolehkah anda mendengar bunyi masa depan?"
+    },
+    "song":{
+        "comment_count": "Tiada komen | 1 komen | {count} komen"
+    },
+    "register":{
+        "accept": "Saya menerima Muzik {0}",
+        "tos": "Terma dan Syarat"
+    },
+    "welcome": "Selamat datang di aplikasi kami!",
+    "login": "Masuk",
+    "logout": "Keluar",
+    "signup": "Daftar",
+    "email": "Email",
+    "password": "Kata Sandi",
+    "confirmPassword": "Konfirmasi Kata Sandi",
+    "submit": "Kirim",
+    "cancel": "Batalkan"
+}

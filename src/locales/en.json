@@ -1,0 +1,25 @@
+{
+    "home": {
+        "listen": "Listen to Great Music!",
+        "description": "Discover new artists and genres every day. Join us in exploring the world of music. Can you hear the sound of the future?",
+        "use" : "$t()"
+    },
+    "song":{
+        "comment_count": "No comments | 1 comment | {count} comments",
+        "use": "$tc()"
+    },
+    "register":{
+        "accept": "I accept Music's {0}",
+        "tos": "Terms of Service",
+        "use": "<i18n-t> </i18n-t>"
+    },
+    "welcome": "Welcome to our application!",
+    "login": "Login",
+    "logout": "Logout",
+    "signup": "Sign Up",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "submit": "Submit",
+    "cancel": "Cancel"
+}
