@@ -29,11 +29,15 @@ port: `netstat -ano | findstr :8115`, then stop that PID.
 
 ### `just test` reports a failing spec
 
-**Cause:** the suite (9 spec files) is green on a clean checkout with no Firebase keys —
-`homeview.spec.js` stubs the firebase bundle via `vi.mock('@/includes/firebase')` and the
-config spec stubs env vars. A failure is therefore caused by your change.
-**Fix:** read the failing assertion. If you intentionally changed `SongItem.vue` markup,
-refresh the snapshot with `npx vitest run -u` in the commit that blesses the new markup.
+**Cause:** the suite (15 spec files / 90 tests) is green on a clean checkout with no Firebase
+keys — specs stub the firebase bundle via `vi.mock('@/includes/firebase')`, audio via
+`vi.mock('howler')`, and the config spec stubs env vars. A failure is therefore caused by
+your change.
+**Fix:** read the failing assertion. Two recurring ones:
+- `i18n.spec.js` "en and ms expose exactly the same key paths" — you added a locale key to
+  only one of `src/locales/en.json` / `ms.json`. Add it to both.
+- The snapshot spec — if you intentionally changed `SongItem.vue` markup, refresh it with
+  `npx vitest run -u` in the commit that blesses the new markup.
 
 ### Running `npm run test:unit` directly never finishes
 

@@ -39,7 +39,7 @@ export default defineConfig([
   },
 
   {
-    files: ['src/components/__tests__/**/*.spec.js'],
+    files: ['src/**/__tests__/**/*.spec.js'],
     languageOptions: {
       globals: {
         test: 'readonly',

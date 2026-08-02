@@ -53,8 +53,9 @@ export default {
         };
     },
     beforeUnmount() {
+        // Rows recorded while offline carry a placeholder task with nothing to cancel.
         this.uploads.forEach((upload) => {
-            upload.task.cancel();
+            upload.task?.cancel?.();
         });
     },
     methods: {
@@ -73,7 +74,7 @@ export default {
                 }
 
                 if(!navigator.onLine) {
-                    this.upload.push({
+                    this.uploads.push({
                         task: {},
                         currentProgress: 0,
                         name: file.name,

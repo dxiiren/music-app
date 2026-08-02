@@ -78,7 +78,7 @@ Run `just` with no arguments to list every recipe. The ones you'll use daily:
 | `just preview` | Serve the production build on :8115 |
 | `just lint` | ESLint with auto-fix (`eslint . --fix`) |
 | `just format` | Prettier write on `src/` |
-| `just test` | Vitest single run — all 9 spec files green, no Firebase keys needed |
+| `just test` | Vitest single run — all 15 spec files / 90 tests green, no Firebase keys needed |
 | `just claudex` | Launch Claude Code (Sonnet, all permissions) |
 
 Cypress e2e exists too (`npm run test:e2e`) but is intentionally not a just recipe — it
@@ -110,8 +110,9 @@ The dev server runs with `--strictPort`, so it exits instead of hopping ports. R
 
 The npm script `test:unit` is `vitest --ui` (watch + browser — never exits); `just test`
 appends `--run` for a single headless pass. Use `just test`, not `npm run test:unit`.
-The whole suite (9 spec files) passes with no Firebase keys — specs stub the firebase
-module (`vi.mock('@/includes/firebase')`), so a failure is your change, not the setup.
+The whole suite (15 spec files, 90 tests) passes with no Firebase keys — specs stub the
+firebase module (`vi.mock('@/includes/firebase')`) and Howler (`vi.mock('howler')`), so a
+failure is your change, not the setup.
 
 ### `just` or `node` not found after running setup.ps1
 
@@ -138,11 +139,14 @@ music-app/
     router/index.js        # /, /about, /manage (auth-guarded), /song/:id, catch-all
     views/                 # HomeView, AboutView, ManageView, SongView
     components/            # AppHeader, AppAuth + Auth/, AppPlayer, Upload,
-                           # SongItem, CompositionItem (+ __tests__/ with 9 specs)
+                           # SongItem, CompositionItem (+ __tests__/ with 11 specs)
     stores/                # user, player (Howler), modal, counter (unused scaffold)
+                           # (+ __tests__/player.spec.js)
+    router/                # index.js + __tests__/guard.spec.js
     includes/              # firebase.js (SDK bundle), firebase-config.js (env-driven
                            # config), not-configured.js (demo shell + notice), validation.js,
                            # i18n.js, helper.js, progress-bar.js, _global.js
+                           # (+ __tests__/ for helper + i18n)
     directives/icon.js     # v-icon Font Awesome helper
     locales/               # en.json, ms.json (vue-i18n)
   cypress/                 # e2e specs + support commands

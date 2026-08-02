@@ -58,7 +58,9 @@ export default {
         signOut() {
             this.logout();
 
-            if(this.$router.meta?.requiresAuth === 'manage') {
+            // Signing out on an auth-gated route (e.g. /manage) would leave the
+            // user staring at a view the guard no longer admits — send them home.
+            if(this.$route.meta?.requiresAuth) {
                 this.$router.push({ name: 'home' })
             }
         },

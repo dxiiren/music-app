@@ -1,17 +1,14 @@
 {
     "home": {
         "listen": "Listen to Great Music!",
-        "description": "Discover new artists and genres every day. Join us in exploring the world of music. Can you hear the sound of the future?",
-        "use" : "$t()"
+        "description": "Discover new artists and genres every day. Join us in exploring the world of music. Can you hear the sound of the future?"
     },
     "song":{
-        "comment_count": "No comments | 1 comment | {count} comments",
-        "use": "$tc()"
+        "comment_count": "No comments | 1 comment | {count} comments"
     },
     "register":{
         "accept": "I accept Music's {0}",
-        "tos": "Terms of Service",
-        "use": "<i18n-t> </i18n-t>"
+        "tos": "Terms of Service"
     },
     "welcome": "Welcome to our application!",
     "login": "Login",

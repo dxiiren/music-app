@@ -46,7 +46,7 @@ whose command line contains this repo's path.
 | `curl.exe -s -o NUL -w "%{http_code}" http://localhost:8115/` | `200` |
 | Browser at `http://localhost:8115` | demo shell + "Firebase not configured" notice **until** `.env` is filled (next section) |
 | `just build` | exit 0; `dist/` with hashed chunks + `sw.js` (one >500 kB chunk warning is known — the Firebase SDK) |
-| `just test` | runs once and exits; all 9 spec files pass (no Firebase keys needed) |
+| `just test` | runs once and exits; all 15 spec files / 90 tests pass (no Firebase keys needed) |
 
 ## 5. Fill the Firebase config (needed for actual app work)
 

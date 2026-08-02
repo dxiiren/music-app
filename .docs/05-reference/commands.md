@@ -18,7 +18,7 @@
 | `just preview` | `npm run preview -- --port 8115` | serves `dist/` — run `just build` first |
 | `just lint` | `npm run lint` (`eslint . --fix`) | **edits files** |
 | `just format` | `npm run format` (`prettier --write src/`) | **edits files** |
-| `just test [flags]` | `npm run test:unit -- --run [flags]` | single pass; all 9 spec files green, no Firebase keys needed |
+| `just test [flags]` | `npm run test:unit -- --run [flags]` | single pass; all 15 spec files / 90 tests green, no Firebase keys needed |
 | `just claudex` / `claudeo` / `claudeh` | Claude Code with all permissions | Sonnet / Opus / Haiku |
 
 Override the port for one call with `PORT=nnnn just start` (default 8115 — stay on it).

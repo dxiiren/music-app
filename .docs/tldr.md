@@ -36,8 +36,9 @@ to `.env` and fill the `VITE_FIREBASE_*` values. VSCode + Volar is the recommend
 
 Branch off `main`, edit with `just start` running (HMR), verify in the browser, then
 `just lint` + `just format` + `just test` before committing — no hooks or CI catch you.
-`just test` forces vitest into single-run mode; all 9 spec files pass without Firebase
-keys (specs stub the firebase bundle). Cypress e2e exists but runs via npm scripts against
+`just test` forces vitest into single-run mode; all 15 spec files (90 tests) pass without
+Firebase keys (specs stub the firebase bundle and Howler). Specs live in a `__tests__/`
+folder next to the code they cover. Cypress e2e exists but runs via npm scripts against
 :4173, not a just recipe. Conventional Commits, no attribution footers, PRs into `main`.
 
 ## [04-deployment/deployment.md](04-deployment/deployment.md)

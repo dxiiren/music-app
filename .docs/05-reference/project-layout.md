@@ -41,8 +41,11 @@
 | `components/SongItem.vue`, `CompositionItem.vue` | playlist row / manage-page editable row |
 | `components/Base/Button.vue` | auto-registered as `BaseButton` by `_global.js` |
 | `components/basic.vue` | scaffold leftover (unused) |
-| `components/__tests__/` | 9 Vitest specs + `__snapshots__/` |
+| `components/__tests__/` | 11 Vitest specs + `__snapshots__/` |
 | `stores/` | `user.js`, `player.js` (Howler), `modal.js`, `counter.js` (unused scaffold) |
+| `stores/__tests__/` | `player.spec.js` — the Howler wrapper with `vi.mock('howler')` |
+| `router/__tests__/` | `guard.spec.js` — the `requiresAuth` redirect on `/manage` |
+| `includes/__tests__/` | `helper.spec.js`, `i18n.spec.js` (en/ms key parity) |
 | `includes/firebase.js` | THE Firebase bundle — services (initialized only when configured), SDK re-exports |
 | `includes/firebase-config.js` | env-driven config: reads `VITE_FIREBASE_*`, empty-object fallback |
 | `includes/not-configured.js` | the demo shell (header/hero/sample playlist) + dismissible "Firebase not configured" notice `main.js` renders when unconfigured |

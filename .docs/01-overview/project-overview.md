@@ -48,7 +48,8 @@ feature; see [`../02-setup/getting-started.md`](../02-setup/getting-started.md).
 - Not a full-stack repo — no server code of its own; Firebase is the backend.
 - Not CI/CD-gated — a live build is hosted at https://music-plum-chi.vercel.app, but local
   dev runs on `http://localhost:8115` via `just start` with no pipeline in this repo.
-- Unit-tested only — 9 Vitest spec files in `src/components/__tests__/`, all green with no
+- Unit-tested only — 15 Vitest spec files (90 tests) across the `__tests__/` folders under
+  `src/components`, `src/stores`, `src/router` and `src/includes`, all green with no
   Firebase keys needed; Cypress e2e is scaffolded with 2 specs against the preview server
   on `:4173` (not wired as a just recipe).
 - Not payment-enabled — the "price" on the song page is an i18n currency-formatting demo.
@@ -65,7 +66,7 @@ feature; see [`../02-setup/getting-started.md`](../02-setup/getting-started.md).
 | Forms | VeeValidate 4 + `@vee-validate/rules` | global plugin in `src/includes/validation.js` |
 | State | Pinia 3 | `user`, `player`, `modal` (+ unused `counter` scaffold) |
 | i18n | vue-i18n 9 | `ms` default, `en` fallback, currency number formats |
-| Tests | Vitest 3 + jsdom, Cypress 14 | unit specs in `src/components/__tests__/`, e2e in `cypress/e2e/` |
+| Tests | Vitest 3 + jsdom, Cypress 14 | unit specs in `__tests__/` under `components/`, `stores/`, `router/`, `includes/`; e2e in `cypress/e2e/` |
 | Quality | ESLint 9 (flat) + Prettier 3 | no hooks, no CI — run manually |
 
 ## Related docs

@@ -23,19 +23,27 @@
 
 ## Unit tests (Vitest)
 
-- Specs live in `src/components/__tests__/` (9 files: router-link stub, pinia counter,
-  SongItem props, snapshot, about/home views, an example spec, the env-driven firebase
-  config, and the not-configured demo shell + notice).
+- 15 spec files / 90 tests, in a `__tests__/` folder next to the code they cover:
+  - `src/components/__tests__/` — AppHeader (locale toggle, auth links, sign-out redirect),
+    AppPlayer, Upload (validation, offline row, progress/error callbacks), HomeView
+    (pagination + infinite scroll + error recovery), AboutView, SongItem, router-link stub,
+    snapshot, the `user` store, the env-driven firebase config, the not-configured demo shell.
+  - `src/stores/__tests__/player.spec.js` — the Howler wrapper, with `vi.mock('howler')`.
+  - `src/router/__tests__/guard.spec.js` — the `requiresAuth` redirect on `/manage`.
+  - `src/includes/__tests__/` — `helper.formatTime`, and en/ms key parity + the i18n instance.
 - The npm script `test:unit` is `vitest --ui` — watch mode plus a browser UI that **never
   exits**. `just test` appends `--run` for a headless single pass; add flags with
   `just test -- <flags>` if needed.
-- **The whole suite is green with no Firebase keys**: `homeview.spec.js` stubs the
-  firebase bundle with `vi.mock('@/includes/firebase')`, and `firebase-config.spec.js`
-  drives the env-var reading with `vi.stubEnv`. Keep it that way — specs must never need
-  a real Firebase project.
+- **The whole suite is green with no Firebase keys**: every spec that touches the SDK stubs
+  the bundle with `vi.mock('@/includes/firebase')`, `firebase-config.spec.js` drives the
+  env-var reading with `vi.stubEnv`, and anything reaching audio stubs `vi.mock('howler')`.
+  Keep it that way — specs must never need a real Firebase project or an audio device.
+- Adding a locale key means adding it to **both** `src/locales/en.json` and `ms.json` —
+  `i18n.spec.js` asserts the two files have identical key paths.
 - If you intentionally change `SongItem.vue` markup, refresh the snapshot with
   `npx vitest run -u` in the same commit that blesses the new markup.
-- New logic (stores, helpers) should get a spec in the same folder.
+- New logic gets a spec in a `__tests__/` folder beside it (stores → `src/stores/__tests__/`,
+  helpers → `src/includes/__tests__/`, and so on).
 
 ## E2E tests (Cypress)
 

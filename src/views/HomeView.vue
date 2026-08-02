@@ -94,8 +94,6 @@ export default {
                     })
                 })
 
-                this.pendingRequest = false
-
                 if (!querySnapshot.empty) {
                     this.lastDoc = querySnapshot.docs[querySnapshot.docs.length - 1]
                 }
@@ -105,6 +103,10 @@ export default {
                 }
             } catch (error) {
                 console.error('Failed to load songs:', error)
+            } finally {
+                // Must release on the error path too, otherwise a single failed
+                // page latches pendingRequest on and infinite scroll dies for good.
+                this.pendingRequest = false
             }
         },
         baseQuery() {

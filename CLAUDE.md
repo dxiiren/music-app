@@ -30,7 +30,7 @@ setup notice instead of mounting.
 | State | **Pinia 3** | stores: `user` (auth), `player` (playback), `modal` (auth modal), `counter` (scaffold, unused) |
 | Forms | **VeeValidate 4** + `@vee-validate/rules` | global plugin `src/includes/validation.js`; login/register + comment forms |
 | i18n | **vue-i18n 9** | locales `en` + `ms` (`src/locales/`); currency formatting on song page |
-| Tests | **Vitest 3** + jsdom + @vue/test-utils | 9 spec files in `src/components/__tests__/`, all green with no Firebase keys (firebase module stubbed); script `test:unit` is `vitest --ui` — `just test` runs `npx vitest run` |
+| Tests | **Vitest 3** + jsdom + @vue/test-utils | 15 spec files / 90 tests in `__tests__/` folders under `src/components`, `src/stores`, `src/router`, `src/includes`; all green with no Firebase keys (firebase, howler and the user store are stubbed with `vi.mock`); script `test:unit` is `vitest --ui` — `just test` runs `npx vitest run` |
 | E2E | **Cypress 14** | `cypress/e2e/`; baseUrl `http://localhost:4173` (vite preview) — not wired as a just recipe |
 | Quality | ESLint 9 flat config + Prettier 3 | `npm run lint` auto-fixes; `npm run format` writes `src/` |
 | Package manager | **npm** | Node LTS (verified on v24); `package-lock.json` committed |
@@ -50,11 +50,15 @@ music-app/
                             # SongView (player + comments), AboutView
     components/             # AppHeader, AppAuth + Auth/ (login/register), AppPlayer,
                             # Upload (drag-drop to Storage), SongItem, CompositionItem
-    components/__tests__/   # 9 Vitest spec files (+ snapshot)
+    components/__tests__/   # 11 specs (+ snapshot): header, player, upload, home, about,
+                            # song item, router link, user store, firebase config, demo shell
     stores/                 # user.js, player.js (Howler), modal.js, counter.js (unused)
+    stores/__tests__/       # player.spec.js (Howl mocked)
+    router/__tests__/       # guard.spec.js (requiresAuth redirect)
     includes/               # firebase.js (SDK bundle), firebase-config.js (env-driven),
                             # not-configured.js (demo shell + setup notice), validation.js, i18n.js,
                             # helper.js (formatTime), progress-bar.js, _global.js
+    includes/__tests__/     # helper.spec.js, i18n.spec.js (en/ms key parity)
     directives/icon.js      # v-icon Font Awesome helper
     locales/                # en.json, ms.json
   cypress/                  # e2e specs (audio.cy.js, example.cy.js) + support

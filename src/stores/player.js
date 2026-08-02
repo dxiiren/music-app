@@ -2,6 +2,11 @@ import { defineStore } from 'pinia'
 import { Howl } from 'howler'
 import helper from '@/includes/helper.js'
 
+// `sound` starts life as a plain `{}`, so every access has to check that a Howl
+// is actually loaded. Testing `sound.playing` alone is not enough — that is a
+// method reference, truthy for any Howl regardless of playback state.
+const isLoaded = (sound) => typeof sound?.playing === 'function'
+
 export default defineStore('player', {
     state: () => ({
         currentSong: {},
@@ -33,7 +38,8 @@ export default defineStore('player', {
         },
 
         async toggleAudio() {
-            if (!this.sound.playing) {
+            // The initial state is a bare `{}` — bail out until a Howl is loaded.
+            if (!isLoaded(this.sound)) {
                 return
             }
 
@@ -44,9 +50,18 @@ export default defineStore('player', {
             }
         },
         progress() {
-            this.seek = helper.formatTime(this.sound.seek());
-            this.duration = helper.formatTime(this.sound.duration());
-            this.playerProgress = `${(this.sound.seek() / this.sound.duration()) * 100}%`
+            if (!isLoaded(this.sound)) {
+                return
+            }
+
+            const seek = this.sound.seek();
+            const duration = this.sound.duration();
+
+            this.seek = helper.formatTime(seek);
+            this.duration = helper.formatTime(duration);
+            // Howl.duration() is 0 until the track's metadata has loaded —
+            // dividing by it would paint the bar `NaN%` wide.
+            this.playerProgress = duration ? `${(seek / duration) * 100}%` : '0%'
 
             if(this.sound.playing()) {
                 requestAnimationFrame(this.progress.bind(this));
@@ -54,7 +69,7 @@ export default defineStore('player', {
         },
         updateSeek(event){
 
-            if (!this.sound.playing) {
+            if (!isLoaded(this.sound)) {
                 return
             }
 
@@ -71,8 +86,8 @@ export default defineStore('player', {
     },
     getters: {
         isPlaying: (state) => {
-            
-            if(state.sound.playing) {
+
+            if(isLoaded(state.sound)) {
                 return state.sound.playing()
             }
 

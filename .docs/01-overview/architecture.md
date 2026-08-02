@@ -44,9 +44,9 @@ App.vue
 | Store | File | Holds | Notes |
 | --- | --- | --- | --- |
 | `user` | `src/stores/user.js` | `userLoggedIn` | actions `login`/`register`/`logout` call Firebase Auth; register also writes `users/{uid}` |
-| `player` | `src/stores/player.js` | `currentSong`, `sound` (Howl), formatted `seek`/`duration`, `playerProgress` | `newSong()` unloads the previous Howl; a `requestAnimationFrame` loop updates progress while playing; `updateSeek()` maps a click on the bar to `sound.seek()` |
+| `player` | `src/stores/player.js` | `currentSong`, `sound` (Howl), formatted `seek`/`duration`, `playerProgress` | `newSong()` unloads the previous Howl; a `requestAnimationFrame` loop updates progress while playing; `updateSeek()` maps a click on the bar to `sound.seek()`. `sound` starts as a bare `{}`, so `toggleAudio`/`progress`/`updateSeek` bail out until a Howl is loaded, and `progress()` reports `0%` rather than `NaN%` while `duration()` is still 0 |
 | `modal` | `src/stores/modal.js` | `isOpen` + `hiddenClass` getter | drives the auth modal |
-| `counter` | `src/stores/counter.js` | scaffold demo | unused by the app (referenced only by a unit spec) |
+| `counter` | `src/stores/counter.js` | scaffold demo | unused by the app and by the suite |
 
 ## Data model (Firestore)
 
@@ -58,13 +58,19 @@ App.vue
 
 Pagination on Home uses a cursor: `orderBy('modified_name')` + `startAfter(lastDoc)` +
 `limit(perPage)`; the view keeps `lastDoc`, `noMoreSongs`, and a `pendingRequest` flag so
-scroll events can't double-fetch.
+scroll events can't double-fetch. `pendingRequest` is released in a `finally`, so a failed
+page logs and lets the next scroll retry instead of latching infinite scroll off for good.
+
+`Upload.vue` refuses anything that is not `audio/mpeg` / `audio/wav`, and when
+`navigator.onLine` is false it records a red failed row locally instead of calling Storage.
 
 ## Routing
 
 `src/router/index.js` — history mode, 4 routes + catch-all redirect to home. `/manage`
 carries `meta: { requiresAuth: true }`; a global `beforeEach` bounces logged-out users to
-home. Active links get `text-yellow-500`. All views are lazy `import()`s, so each becomes
+home. The mirror image lives in `AppHeader.signOut()`: logging out while the current route
+carries `requiresAuth` pushes the user home, so nobody is left on a view the guard would
+now reject. Active links get `text-yellow-500`. All views are lazy `import()`s, so each becomes
 its own chunk in the build.
 
 ## i18n

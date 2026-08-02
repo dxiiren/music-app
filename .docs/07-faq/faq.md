@@ -19,9 +19,10 @@ security rules do the protecting. Each dev fills their own `.env` here; the file
 git-ignored, so it can't be committed by accident.
 
 **Do the tests need Firebase keys?**
-No. All 9 spec files pass on a clean checkout: `homeview.spec.js` stubs the firebase
-bundle with `vi.mock('@/includes/firebase')`, and `firebase-config.spec.js` stubs the env
-vars. Details in [common-issues](../06-troubleshooting/common-issues.md).
+No. All 15 spec files (90 tests) pass on a clean checkout: specs that touch the SDK stub the
+firebase bundle with `vi.mock('@/includes/firebase')`, `firebase-config.spec.js` stubs the env
+vars, and the player specs stub Howler. Details in
+[common-issues](../06-troubleshooting/common-issues.md).
 
 **Why isn't there a `just` recipe for Cypress?**
 The e2e flow targets `vite preview` on :4173, needs a filled `.env`, and isn't
