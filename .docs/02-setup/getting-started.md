@@ -1,7 +1,7 @@
 # Getting Started
 
 > **TL;DR** `pwsh ./setup.ps1` once, reopen PowerShell, `just install`, `just start`, open
-> `http://localhost:8115`. Expect a "Firebase not configured" setup banner until you copy
+> `http://localhost:8115`. Expect a demo shell with a "Firebase not configured" notice until you copy
 > `.env.example` to `.env` and fill the `VITE_FIREBASE_*` values — Firebase is the app's
 > only backend.
 
@@ -44,7 +44,7 @@ whose command line contains this repo's path.
 | Check | Expect |
 | --- | --- |
 | `curl.exe -s -o NUL -w "%{http_code}" http://localhost:8115/` | `200` |
-| Browser at `http://localhost:8115` | "Firebase not configured" setup banner **until** `.env` is filled (next section) |
+| Browser at `http://localhost:8115` | demo shell + "Firebase not configured" notice **until** `.env` is filled (next section) |
 | `just build` | exit 0; `dist/` with hashed chunks + `sw.js` (one >500 kB chunk warning is known — the Firebase SDK) |
 | `just test` | runs once and exits; all 9 spec files pass (no Firebase keys needed) |
 

@@ -4,8 +4,9 @@
 > by Firebase: browse a paginated public playlist, register/log in, upload your own audio
 > files, edit/delete them on a manage page, play any song through a persistent Howler.js
 > player bar, and comment on songs. The Firebase config is injected via `VITE_FIREBASE_*`
-> env vars (`.env`, copied from `.env.example`); without them the app renders a
-> "Firebase not configured" setup banner instead of mounting.
+> env vars (`.env`, copied from `.env.example`); without them the app renders a demo
+> shell (sample playlist) with a dismissible "Firebase not configured" setup notice
+> instead of mounting.
 
 ## What it is
 
@@ -37,8 +38,9 @@ Firebase only — wired once in `src/includes/firebase.js`, which exports one bu
 
 **The config comes from `VITE_FIREBASE_*` env vars** (`src/includes/firebase-config.js`),
 with an empty-object fallback. With no `.env` the services stay uninitialized and
-`src/main.js` renders the "Firebase not configured" banner (`src/includes/not-configured.js`)
-instead of mounting. Fill `.env` (copy `.env.example`) to work on any Firebase-backed
+`src/main.js` renders the demo shell with the "Firebase not configured" notice
+(`src/includes/not-configured.js`) instead of mounting. Fill `.env` (copy `.env.example`)
+to work on any Firebase-backed
 feature; see [`../02-setup/getting-started.md`](../02-setup/getting-started.md).
 
 ## What it is NOT

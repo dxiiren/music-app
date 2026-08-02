@@ -9,8 +9,9 @@ A Vue 3 + Vite music-streaming SPA (installable PWA): browse a paginated song pl
 register/log in, upload your own tracks, edit or delete them on a manage page, play songs
 through a persistent Howler.js player bar, and comment on songs. All data lives in Firebase
 (Auth + Firestore + Storage) — **the Firebase config comes from `VITE_FIREBASE_*` env vars**
-(`.env`, copied from `.env.example`); without them the app renders a "Firebase not
-configured" setup banner instead of mounting.
+(`.env`, copied from `.env.example`); without them the app renders a static demo shell
+(header, hero, playlist with sample songs) plus a dismissible "Firebase not configured"
+setup notice instead of mounting.
 
 - **Repo:** GitHub — `github.com/dxiiren/music-app`
 - **Live demo:** https://music-plum-chi.vercel.app (Vercel). No CI/CD in-repo; `just start`
@@ -42,7 +43,7 @@ music-app/
   index.html, vite.config.js, vitest.config.js, cypress.config.js, eslint.config.js
   src/
     main.js                 # createApp inside firebase.onAuthStateChanged (mount gated on
-                            # auth init); renders the setup banner when unconfigured
+                            # auth init); renders the demo shell + notice when unconfigured
     App.vue                 # AppHeader + <router-view> + AppPlayer + AppAuth modal
     router/index.js         # 4 routes + catch-all; requiresAuth guard on /manage
     views/                  # HomeView (playlist + infinite scroll), ManageView (upload + edit),
@@ -52,7 +53,7 @@ music-app/
     components/__tests__/   # 9 Vitest spec files (+ snapshot)
     stores/                 # user.js, player.js (Howler), modal.js, counter.js (unused)
     includes/               # firebase.js (SDK bundle), firebase-config.js (env-driven),
-                            # not-configured.js (setup banner), validation.js, i18n.js,
+                            # not-configured.js (demo shell + setup notice), validation.js, i18n.js,
                             # helper.js (formatTime), progress-bar.js, _global.js
     directives/icon.js      # v-icon Font Awesome helper
     locales/                # en.json, ms.json
@@ -82,8 +83,9 @@ music-app/
 - `just stop` kills only THIS repo's server processes (matched by repo path on the command
   line) — safe to run while other projects are serving.
 - The Firebase config comes from `VITE_FIREBASE_*` env vars (copy `.env.example` to the
-  git-ignored `.env`). Without them the app renders a "Firebase not configured" banner
-  instead of mounting — expected during infra-only work. NEVER commit `.env` or real keys.
+  git-ignored `.env`). Without them the app renders the demo shell with a dismissible
+  "Firebase not configured" notice instead of mounting — expected during infra-only work.
+  NEVER commit `.env` or real keys.
 - The PWA plugin runs in dev (`devOptions.enabled`) and regenerates the **tracked** `dev-dist/`
   files on every dev run — `git restore dev-dist` that churn; never commit it unless service-
   worker behavior intentionally changed.

@@ -11,8 +11,9 @@
 1. `src/main.js` imports CSS, registers the PWA service worker (`registerSW`), and wires
    NProgress to router navigation (`src/includes/progress-bar.js`).
 2. It then checks `firebase.isConfigured` (driven by the `VITE_FIREBASE_*` env vars via
-   `src/includes/firebase-config.js`). Unconfigured: it renders the "Firebase not
-   configured" banner (`src/includes/not-configured.js`) instead of mounting. Configured:
+   `src/includes/firebase-config.js`). Unconfigured: it renders a static demo shell —
+   header, hero, sample playlist — plus a dismissible "Firebase not configured" notice
+   (`src/includes/not-configured.js`) instead of mounting. Configured:
    it calls `firebase.onAuthStateChanged(firebase.auth, ...)` and only inside that
    callback creates the Vue app — so the router guard sees the correct auth state on a
    hard refresh.

@@ -6,9 +6,10 @@ A Vue 3 + Vite music-streaming SPA (installable PWA): browse a paginated song pl
 register/log in, upload your own tracks, edit or delete them on the manage page, play songs
 through a persistent Howler.js player bar, and comment on songs. All data lives in Firebase
 (Auth + Firestore + Storage). The Firebase config is injected via `VITE_FIREBASE_*` env vars
-(see [Firebase setup](#firebase-setup)) — without them the app shows a friendly setup banner:
+(see [Firebase setup](#firebase-setup)) — without them the app shows a demo shell (the real
+UI with a static sample playlist) plus a dismissible setup notice:
 
-![The "Firebase not configured" setup banner a fresh clone shows before env keys are filled](docs/images/home.png)
+![The home page in demo mode: real UI shell with sample songs and a dismissible "Firebase not configured" notice](docs/images/home.png)
 
 > **New developer? Start with [`.docs/tldr.md`](.docs/tldr.md)** — every doc summarised on one
 > page. The full guide lives in [`.docs/`](.docs/README.md).
@@ -43,7 +44,8 @@ just start
 
 The app is now at **http://localhost:8115**. Stop it with `just stop`.
 (Use `localhost`, not `127.0.0.1` — Vite binds the IPv6 loopback `[::1]` here.)
-Without a filled `.env` you get the setup banner shown above instead of the player UI.
+Without a filled `.env` you get the demo shell shown above — sample songs are visible but
+not playable, and the notice explains how to wire Firebase.
 
 ## Firebase setup
 
@@ -59,7 +61,8 @@ The app needs a (free-tier) Firebase project with **Authentication (email/passwo
 The values land in the client bundle by design — a Firebase *web* config is public — but
 keep real server-side secrets out of `.env` anyway. With no `.env` (or a blank API key) the
 config module (`src/includes/firebase-config.js`) falls back to an empty object and
-`src/main.js` renders the "Firebase not configured" banner instead of mounting the app.
+`src/main.js` renders the demo shell with the "Firebase not configured" notice instead of
+mounting the app.
 
 ## Commands
 
@@ -79,7 +82,7 @@ Run `just` with no arguments to list every recipe. The ones you'll use daily:
 | `just claudex` | Launch Claude Code (Sonnet, all permissions) |
 
 Cypress e2e exists too (`npm run test:e2e`) but is intentionally not a just recipe — it
-drives `vite preview` on :4173 and needs a filled `.env` to get past the setup banner.
+drives `vite preview` on :4173 and needs a filled `.env` to get past the demo shell.
 See [`.docs/03-development/workflow.md`](.docs/03-development/workflow.md).
 
 ## Troubleshooting
@@ -89,10 +92,11 @@ See [`.docs/03-development/workflow.md`](.docs/03-development/workflow.md).
 Vite binds the IPv6 loopback (`[::1]`) on this setup — use `http://localhost:8115`, not the
 IPv4 literal.
 
-### The page shows "Firebase not configured" instead of the player
+### The page shows demo songs and a "Firebase not configured" notice
 
-Working as intended: no `VITE_FIREBASE_*` env vars were found, so the app renders the setup
-banner instead of mounting. Follow [Firebase setup](#firebase-setup) — copy `.env.example`
+Working as intended: no `VITE_FIREBASE_*` env vars were found, so the app renders the demo
+shell (static sample playlist, nothing playable) with a dismissible setup notice instead of
+mounting. Follow [Firebase setup](#firebase-setup) — copy `.env.example`
 to `.env`, fill the values, restart the dev server. (If you instead see a *blank* page,
 check the browser console — that would be a different problem.)
 
@@ -129,7 +133,7 @@ music-app/
   justfile, setup.ps1      # dev recipes + machine bootstrap
   src/
     main.js                # createApp gated inside firebase.onAuthStateChanged;
-                           # renders the setup banner when Firebase is unconfigured
+                           # renders the demo shell + notice when Firebase is unconfigured
     App.vue                # AppHeader + <router-view> + AppPlayer + AppAuth modal
     router/index.js        # /, /about, /manage (auth-guarded), /song/:id, catch-all
     views/                 # HomeView, AboutView, ManageView, SongView
@@ -137,7 +141,7 @@ music-app/
                            # SongItem, CompositionItem (+ __tests__/ with 9 specs)
     stores/                # user, player (Howler), modal, counter (unused scaffold)
     includes/              # firebase.js (SDK bundle), firebase-config.js (env-driven
-                           # config), not-configured.js (setup banner), validation.js,
+                           # config), not-configured.js (demo shell + notice), validation.js,
                            # i18n.js, helper.js, progress-bar.js, _global.js
     directives/icon.js     # v-icon Font Awesome helper
     locales/               # en.json, ms.json (vue-i18n)

@@ -7,8 +7,9 @@
 Every repo in this workspace gets a unique assigned port so several dev servers can run at
 once. `--strictPort` makes collisions loud instead of silent port-hopping. Don't change it.
 
-**Why do I see a "Firebase not configured" banner instead of the app?**
-No `VITE_FIREBASE_*` env vars were found, so the app renders a setup banner instead of
+**Why do I see demo songs and a "Firebase not configured" notice instead of the app?**
+No `VITE_FIREBASE_*` env vars were found, so the app renders a static demo shell (real UI,
+sample playlist, nothing playable) with a dismissible setup notice instead of
 mounting — see [common-issues](../06-troubleshooting/common-issues.md). Copy
 `.env.example` to `.env`, fill your own project's web config, and restart the server.
 

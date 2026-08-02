@@ -10,13 +10,14 @@ register/log in via a modal, upload audio files with drag-drop progress bars, ed
 your songs on an auth-guarded manage page, play anything through a persistent Howler.js
 player bar, and comment on songs (with vue-i18n `ms`/`en` localization). The Firebase
 config comes from `VITE_FIREBASE_*` env vars (`.env`, copied from `.env.example`); with
-none set the app shows a "Firebase not configured" setup banner. Runs locally on port
+none set the app shows a demo shell (sample playlist) with a dismissible "Firebase not
+configured" setup notice. Runs locally on port
 8115; live demo at https://music-plum-chi.vercel.app.
 
 ## [01-overview/architecture.md](01-overview/architecture.md)
 
 `main.js` creates the app only after Firebase Auth's first `onAuthStateChanged`; with no
-Firebase config it renders the setup banner instead. `App.vue` hosts header, router-view, player bar,
+Firebase config it renders the demo shell + setup notice instead. `App.vue` hosts header, router-view, player bar,
 and auth modal; four lazy routes (`/`, `/about`, `/manage` auth-guarded, `/song/:id`).
 Pinia stores: `user` (auth), `player` (owns the Howler `Howl` + a rAF progress loop),
 `modal`. All Firebase access goes through the single export bundle in
@@ -28,7 +29,7 @@ cursor on Home.
 Run `pwsh ./setup.ps1` once (installs Git, Node LTS, just, uv, Claude Code, gh —
 idempotent), reopen PowerShell, then `just install` (npm ci — also downloads the Cypress
 binary) and `just start`. The app is at `http://localhost:8115` (use `localhost`, not
-`127.0.0.1`). Expect the "Firebase not configured" banner until you copy `.env.example`
+`127.0.0.1`). Expect the demo shell + "Firebase not configured" notice until you copy `.env.example`
 to `.env` and fill the `VITE_FIREBASE_*` values. VSCode + Volar is the recommended IDE.
 
 ## [03-development/workflow.md](03-development/workflow.md)
@@ -65,14 +66,14 @@ own cross-page state, `includes/` owns app-wide wiring like the firebase bundle 
 ## [06-troubleshooting/common-issues.md](06-troubleshooting/common-issues.md)
 
 Real symptoms with fixes: `127.0.0.1` refuses (IPv6 loopback — use `localhost`), the
-"Firebase not configured" banner (missing `.env`), `--strictPort` exit when 8115 is
+demo shell + "Firebase not configured" notice (missing `.env`), `--strictPort` exit when 8115 is
 taken, `npm run test:unit` never exiting, slow first
 `npm ci` (Cypress binary), `dev-dist/` churn in `git status`, PATH not updating until a new
 shell, and the harmless >500 kB chunk warning.
 
 ## [07-faq/faq.md](07-faq/faq.md)
 
-Quick answers: why port 8115, the setup banner, whether the Firebase config is a
+Quick answers: why port 8115, the demo shell + setup notice, whether the Firebase config is a
 secret, why Cypress isn't a just recipe, why the app opens in Malay,
 what `dev-dist/`/`stats.html`/`template/` are, the unused `counter` store, the
 `.mcp.json.stub` pattern, and why `uv`/Python exist in a Vue repo.

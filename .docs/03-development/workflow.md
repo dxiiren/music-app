@@ -11,7 +11,7 @@
    changes instantly.
 3. Verify in the browser at `http://localhost:8115`. Firebase-backed behavior needs a
    filled `.env` (copy `.env.example`; see
-   [getting-started](../02-setup/getting-started.md)) — otherwise you get the setup banner.
+   [getting-started](../02-setup/getting-started.md)) — otherwise you get the demo shell.
 4. Quality gates (manual — nothing runs automatically):
    - `just lint` — ESLint 9 flat config with `--fix`; **it edits files**.
    - `just format` — Prettier over `src/`; **it edits files**.
@@ -25,7 +25,7 @@
 
 - Specs live in `src/components/__tests__/` (9 files: router-link stub, pinia counter,
   SongItem props, snapshot, about/home views, an example spec, the env-driven firebase
-  config, and the not-configured banner).
+  config, and the not-configured demo shell + notice).
 - The npm script `test:unit` is `vitest --ui` — watch mode plus a browser UI that **never
   exits**. `just test` appends `--run` for a headless single pass; add flags with
   `just test -- <flags>` if needed.
@@ -45,8 +45,8 @@ Cypress 14 is configured (`cypress.config.js`, specs in `cypress/e2e/`) but inte
 - `npm run test:e2e` — builds nothing itself; it starts `vite preview` on **:4173** (the
   baseUrl in `cypress.config.js`) and runs `cypress run --e2e`. Run `just build` first.
 - `npm run test:e2e:dev` — starts a dev server on :4173 and opens the interactive runner.
-- Both need a filled `.env`, otherwise every visit hits the "Firebase not configured"
-  banner instead of the app.
+- Both need a filled `.env`, otherwise every visit hits the demo shell with the "Firebase
+  not configured" notice instead of the app.
 - The binary is downloaded by `npm ci` (`prepare` script) into the user-level Cypress cache.
 
 ## Conventions

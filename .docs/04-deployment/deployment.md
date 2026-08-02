@@ -11,7 +11,7 @@
 | --- | --- |
 | CI/CD | None in this repo — no workflow files, no pipeline |
 | Hosting | Vercel — <https://music-plum-chi.vercel.app>; local `just start` (dev) / `just preview` (built bundle) on :8115 |
-| Backend | Firebase (per-dev project via `.env`; deployed builds need `VITE_FIREBASE_*` set in the host's env or they show the setup banner) |
+| Backend | Firebase (per-dev project via `.env`; deployed builds need `VITE_FIREBASE_*` set in the host's env or they show the demo shell + setup notice) |
 | Secrets | None committed; `.env` and `.mcp.json` (Claude tooling) are git-ignored |
 
 ## What a build produces
@@ -31,7 +31,7 @@ Verify a build locally with `just preview` → `http://localhost:8115`.
 1. The config is already env-driven (`src/includes/firebase-config.js` reads
    `VITE_FIREBASE_*` — see `.env.example`). Set those variables in the host's project
    settings (e.g. Vercel → Settings → Environment Variables) and rebuild; without them
-   the deployed site shows the "Firebase not configured" banner.
+   the deployed site shows the demo shell with the "Firebase not configured" notice.
 2. Lock down Firestore/Storage security rules in that project (the client assumes
    auth-gated writes).
 3. Any static host works (SPA + service worker) — configure a history-mode fallback

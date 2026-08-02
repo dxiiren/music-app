@@ -45,7 +45,7 @@
 | `stores/` | `user.js`, `player.js` (Howler), `modal.js`, `counter.js` (unused scaffold) |
 | `includes/firebase.js` | THE Firebase bundle — services (initialized only when configured), SDK re-exports |
 | `includes/firebase-config.js` | env-driven config: reads `VITE_FIREBASE_*`, empty-object fallback |
-| `includes/not-configured.js` | the "Firebase not configured" setup banner `main.js` renders when unconfigured |
+| `includes/not-configured.js` | the demo shell (header/hero/sample playlist) + dismissible "Firebase not configured" notice `main.js` renders when unconfigured |
 | `includes/validation.js` | global VeeValidate plugin: rules + messages |
 | `includes/i18n.js` | vue-i18n: `ms` default, `en` fallback, currency formats |
 | `includes/helper.js` | `formatTime` (player timers) + random helpers |

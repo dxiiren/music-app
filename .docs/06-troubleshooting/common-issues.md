@@ -2,7 +2,7 @@
 
 > **TL;DR** The issues actually hit while standing this repo up, each with symptom → cause →
 > fix. Headliners: `127.0.0.1` refusing while `localhost` works (IPv6 loopback), the
-> "Firebase not configured" banner from a missing `.env`, `--strictPort` exits when 8115
+> demo shell + "Firebase not configured" notice from a missing `.env`, `--strictPort` exits when 8115
 > is taken, and the watch-mode vitest script.
 
 ### `127.0.0.1:8115` refuses to connect but the server says it's running
@@ -10,14 +10,15 @@
 **Cause:** on Windows with Node ≥17, Vite binds the IPv6 loopback `[::1]` only.
 **Fix:** use `http://localhost:8115`. All docs and recipes in this repo already do.
 
-### Page shows a "Firebase not configured" banner instead of the app
+### Page shows demo songs and a "Firebase not configured" notice instead of the app
 
 **Cause:** no `VITE_FIREBASE_*` env vars found — `src/includes/firebase-config.js` falls
-back to an empty config, so `main.js` renders the setup banner
+back to an empty config, so `main.js` renders the static demo shell (header, hero,
+sample playlist) plus a dismissible setup notice
 (`src/includes/not-configured.js`) instead of mounting.
 **Fix:** copy `.env.example` to `.env`, fill the values, restart the dev server (see
 [getting-started §5](../02-setup/getting-started.md)). For infra-only work (kit, docs,
-build tooling) the banner is expected and harmless. If you instead see a truly *blank*
+build tooling) the demo shell is expected and harmless. If you instead see a truly *blank*
 page, check the browser console — that is not the configured behavior.
 
 ### `just start` window closes immediately / "Port 8115 is already in use"
