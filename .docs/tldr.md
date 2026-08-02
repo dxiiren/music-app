@@ -60,16 +60,16 @@ Firebase config.
 
 Annotated tree: root configs (vite/vitest/cypress/eslint), `src/` (views own pages, stores
 own cross-page state, `includes/` owns app-wide wiring like the firebase bundle and i18n),
-`cypress/` e2e, `template/` original HTML mockups, tracked-but-generated `dev-dist/` and
-`stats.html`, and the kit meta (`justfile`, `setup.ps1`, `.docs/`, `.claude/`).
+`cypress/` e2e, `template/` original HTML mockups, generated `dev-dist/` (git-ignored) and
+tracked `stats.html`, and the kit meta (`justfile`, `setup.ps1`, `.docs/`, `.claude/`).
 
 ## [06-troubleshooting/common-issues.md](06-troubleshooting/common-issues.md)
 
 Real symptoms with fixes: `127.0.0.1` refuses (IPv6 loopback — use `localhost`), the
 demo shell + "Firebase not configured" notice (missing `.env`), `--strictPort` exit when 8115 is
 taken, `npm run test:unit` never exiting, slow first
-`npm ci` (Cypress binary), `dev-dist/` churn in `git status`, PATH not updating until a new
-shell, and the harmless >500 kB chunk warning.
+`npm ci` (Cypress binary), why `dev-dist/` never shows in `git status` (git-ignored), PATH
+not updating until a new shell, and the harmless >500 kB chunk warning.
 
 ## [07-faq/faq.md](07-faq/faq.md)
 

@@ -33,10 +33,9 @@ reliable headless on this setup — so it stays an npm-script affair (`npm run t
 toggles between them; the song page's price demo formats MYR vs USD accordingly.
 
 **What are `dev-dist/` and `stats.html`?**
-Generated artifacts that happen to be tracked: `dev-dist/` is the PWA plugin's dev
-service-worker output (regenerated on every dev run — `git restore` the churn), and
-`stats.html` is an old rollup-visualizer bundle report (the plugin is commented out in
-`vite.config.js`).
+Generated artifacts: `dev-dist/` is the PWA plugin's dev service-worker output
+(git-ignored; regenerated on every dev run), and `stats.html` is an old tracked
+rollup-visualizer bundle report (the plugin is commented out in `vite.config.js`).
 
 **What is `template/` for?**
 The original static HTML mockups (index/manage/song) the Vue views were transcribed from.

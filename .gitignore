@@ -31,6 +31,9 @@ coverage
 .vercel
 /dist
 
+# PWA dev service-worker output — regenerated on every dev run, never commit
+dev-dist/
+
 # Local env with real Firebase keys — commit .env.example only (NEVER .env)
 .env
 .env.*

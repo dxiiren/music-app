@@ -58,7 +58,7 @@ Cypress 14 is configured (`cypress.config.js`, specs in `cypress/e2e/`) but inte
 | Firebase access | Always through the `src/includes/firebase.js` bundle — never re-import `firebase/*` in a component |
 | Styling | Tailwind v4 utilities; shared look via `src/assets/*.css` |
 | Ports | Dev/preview on **8115** only (`--strictPort`); Cypress preview uses 4173 |
-| Generated files | Don't commit `dev-dist/` churn (`git restore dev-dist`) or a regenerated `stats.html` unless intentional |
+| Generated files | `dev-dist/` is git-ignored (regenerated every dev run); don't commit a regenerated `stats.html` unless intentional |
 
 ## Related docs
 

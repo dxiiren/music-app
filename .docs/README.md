@@ -64,4 +64,4 @@
 
 | Document | What it covers |
 | --- | --- |
-| [`faq.md`](07-faq/faq.md) | Short answers: ports, the env-driven Firebase config, the test suite, the `ms` default locale, dev-dist churn, and more |
+| [`faq.md`](07-faq/faq.md) | Short answers: ports, the env-driven Firebase config, the test suite, the `ms` default locale, the generated `dev-dist/`, and more |

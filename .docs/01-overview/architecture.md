@@ -82,7 +82,7 @@ The header link toggles locale at runtime. Number formats define `currency` per 
 - **Howler over `<audio>`** — html5 streaming mode for large files; the store is the single
   owner of the active `Howl` instance.
 - **PWA in dev** — `devOptions.enabled: true` registers the service worker during `just
-  dev/start` and regenerates the tracked `dev-dist/` folder; treat that churn as noise.
+  dev/start` and regenerates the git-ignored `dev-dist/` folder on every run.
 
 ## Related docs
 

@@ -47,12 +47,12 @@ watcher.
 into the user cache on first install.
 **Fix:** wait it out once; later installs hit the cache ("Skipping installation").
 
-### `git status` shows modified `dev-dist/` files after running the dev server
+### `git status` shows `dev-dist/` files after running the dev server
 
-**Cause:** `vite-plugin-pwa` has `devOptions.enabled: true`, and the generated dev
-service-worker files under `dev-dist/` are tracked in git.
-**Fix:** `git restore dev-dist` — never commit that churn unless a service-worker change is
-intentional.
+**Cause:** `vite-plugin-pwa` has `devOptions.enabled: true` and regenerates the dev
+service-worker files under `dev-dist/` on every dev run.
+**Fix:** none needed — `dev-dist/` is git-ignored (and eslint-ignored), so it should never
+appear in `git status`. If it does, it was re-added by hand; `git rm -r --cached dev-dist`.
 
 ### `just` or `node` not found after running setup.ps1
 
