@@ -1,30 +1,29 @@
 # FAQ
 
-> **TL;DR** Quick answers about the port, the empty Firebase config, the failing specs, the
-> Malay default locale, Cypress, `dev-dist/`, `template/`, and the Claude Code tooling.
+> **TL;DR** Quick answers about the port, the env-driven Firebase config, the test suite,
+> the Malay default locale, Cypress, `dev-dist/`, `template/`, and the Claude Code tooling.
 
 **Why port 8115?**
 Every repo in this workspace gets a unique assigned port so several dev servers can run at
 once. `--strictPort` makes collisions loud instead of silent port-hopping. Don't change it.
 
-**Why is the page blank when the server clearly works?**
-The committed Firebase config is empty (`{}`) and the app mounts only after Firebase Auth
-initializes — see [common-issues](../06-troubleshooting/common-issues.md). Fill
-`src/includes/firebase.js` with your own project's web config to see the UI.
+**Why do I see a "Firebase not configured" banner instead of the app?**
+No `VITE_FIREBASE_*` env vars were found, so the app renders a setup banner instead of
+mounting — see [common-issues](../06-troubleshooting/common-issues.md). Copy
+`.env.example` to `.env`, fill your own project's web config, and restart the server.
 
 **Is the Firebase web config a secret?**
 Not in the credential sense — it ships to every browser in production apps; Firebase
-security rules do the protecting. Each dev fills their own here; just don't commit one
-without agreeing it's the team's shared project.
+security rules do the protecting. Each dev fills their own `.env` here; the file is
+git-ignored, so it can't be committed by accident.
 
-**Why do 2 test files fail?**
-Pre-existing: `homeview.spec.js` trips over the empty Firebase config at import, and
-`snapshot.spec.js` has a stale snapshot from before `SongItem.vue`'s markup changed. The
-other 5 files (6 tests) pass. Details in
-[common-issues](../06-troubleshooting/common-issues.md).
+**Do the tests need Firebase keys?**
+No. All 9 spec files pass on a clean checkout: `homeview.spec.js` stubs the firebase
+bundle with `vi.mock('@/includes/firebase')`, and `firebase-config.spec.js` stubs the env
+vars. Details in [common-issues](../06-troubleshooting/common-issues.md).
 
 **Why isn't there a `just` recipe for Cypress?**
-The e2e flow targets `vite preview` on :4173, needs a filled Firebase config, and isn't
+The e2e flow targets `vite preview` on :4173, needs a filled `.env`, and isn't
 reliable headless on this setup — so it stays an npm-script affair (`npm run test:e2e`,
 `npm run test:e2e:dev`) documented in [workflow](../03-development/workflow.md).
 

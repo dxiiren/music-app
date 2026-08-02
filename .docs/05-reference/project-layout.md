@@ -41,9 +41,11 @@
 | `components/SongItem.vue`, `CompositionItem.vue` | playlist row / manage-page editable row |
 | `components/Base/Button.vue` | auto-registered as `BaseButton` by `_global.js` |
 | `components/basic.vue` | scaffold leftover (unused) |
-| `components/__tests__/` | 7 Vitest specs + `__snapshots__/` |
+| `components/__tests__/` | 9 Vitest specs + `__snapshots__/` |
 | `stores/` | `user.js`, `player.js` (Howler), `modal.js`, `counter.js` (unused scaffold) |
-| `includes/firebase.js` | THE Firebase bundle — config (**empty `{}`**), services, SDK re-exports |
+| `includes/firebase.js` | THE Firebase bundle — services (initialized only when configured), SDK re-exports |
+| `includes/firebase-config.js` | env-driven config: reads `VITE_FIREBASE_*`, empty-object fallback |
+| `includes/not-configured.js` | the "Firebase not configured" setup banner `main.js` renders when unconfigured |
 | `includes/validation.js` | global VeeValidate plugin: rules + messages |
 | `includes/i18n.js` | vue-i18n: `ms` default, `en` fallback, currency formats |
 | `includes/helper.js` | `formatTime` (player timers) + random helpers |

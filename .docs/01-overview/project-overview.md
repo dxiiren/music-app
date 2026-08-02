@@ -3,8 +3,9 @@
 > **TL;DR** Music App is a Vue 3 + Vite music-streaming SPA (installable PWA) backed entirely
 > by Firebase: browse a paginated public playlist, register/log in, upload your own audio
 > files, edit/delete them on a manage page, play any song through a persistent Howler.js
-> player bar, and comment on songs. The committed Firebase config is **empty**, so the UI only
-> mounts in a browser after you fill `src/includes/firebase.js` with a real project config.
+> player bar, and comment on songs. The Firebase config is injected via `VITE_FIREBASE_*`
+> env vars (`.env`, copied from `.env.example`); without them the app renders a
+> "Firebase not configured" setup banner instead of mounting.
 
 ## What it is
 
@@ -34,18 +35,20 @@ Firebase only — wired once in `src/includes/firebase.js`, which exports one bu
 | Firebase Storage | the uploaded audio files (`uploadBytesResumable`, download URLs, delete) |
 | Firebase Analytics | initialized alongside the app |
 
-**The committed `firebaseConfig` is an empty object `{}`.** The dev server serves the SPA
-shell fine (HTTP 200), but in a browser `getAuth` throws `auth/invalid-api-key` and the app
-never mounts. Fill the config to work on any Firebase-backed feature; see
-[`../02-setup/getting-started.md`](../02-setup/getting-started.md).
+**The config comes from `VITE_FIREBASE_*` env vars** (`src/includes/firebase-config.js`),
+with an empty-object fallback. With no `.env` the services stay uninitialized and
+`src/main.js` renders the "Firebase not configured" banner (`src/includes/not-configured.js`)
+instead of mounting. Fill `.env` (copy `.env.example`) to work on any Firebase-backed
+feature; see [`../02-setup/getting-started.md`](../02-setup/getting-started.md).
 
 ## What it is NOT
 
 - Not a full-stack repo — no server code of its own; Firebase is the backend.
-- Not deployed — no CI/CD, no hosting; it runs on `http://localhost:8115` via `just start`.
-- Not fully tested — 7 Vitest specs exist in `src/components/__tests__/`, but 2 files fail
-  pre-existing (empty Firebase config + a stale snapshot); Cypress e2e is scaffolded with 2
-  specs against the preview server on `:4173`.
+- Not CI/CD-gated — a live build is hosted at https://music-plum-chi.vercel.app, but local
+  dev runs on `http://localhost:8115` via `just start` with no pipeline in this repo.
+- Unit-tested only — 9 Vitest spec files in `src/components/__tests__/`, all green with no
+  Firebase keys needed; Cypress e2e is scaffolded with 2 specs against the preview server
+  on `:4173` (not wired as a just recipe).
 - Not payment-enabled — the "price" on the song page is an i18n currency-formatting demo.
 
 ## Tech stack
@@ -69,4 +72,4 @@ never mounts. Fill the config to work on any Firebase-backed feature; see
 | --- | --- |
 | [`architecture.md`](architecture.md) | Boot gating, stores, and data flow in detail |
 | [`../02-setup/getting-started.md`](../02-setup/getting-started.md) | Get it running locally |
-| [`../07-faq/faq.md`](../07-faq/faq.md) | Quick answers about Firebase, ports, failing specs |
+| [`../07-faq/faq.md`](../07-faq/faq.md) | Quick answers about Firebase, ports, tests |

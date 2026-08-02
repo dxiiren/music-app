@@ -8,14 +8,15 @@ Music App is a Vue 3 + Vite music-streaming SPA and installable PWA backed entir
 Firebase (Auth + Firestore + Storage): browse a paginated playlist with infinite scroll,
 register/log in via a modal, upload audio files with drag-drop progress bars, edit/delete
 your songs on an auth-guarded manage page, play anything through a persistent Howler.js
-player bar, and comment on songs (with vue-i18n `ms`/`en` localization). The committed
-Firebase config is empty, so the UI mounts only after you fill in a real project config.
-Runs locally on port 8115; no CI/CD.
+player bar, and comment on songs (with vue-i18n `ms`/`en` localization). The Firebase
+config comes from `VITE_FIREBASE_*` env vars (`.env`, copied from `.env.example`); with
+none set the app shows a "Firebase not configured" setup banner. Runs locally on port
+8115; live demo at https://music-plum-chi.vercel.app.
 
 ## [01-overview/architecture.md](01-overview/architecture.md)
 
-`main.js` creates the app only after Firebase Auth's first `onAuthStateChanged` — which is
-why an empty config means a blank page. `App.vue` hosts header, router-view, player bar,
+`main.js` creates the app only after Firebase Auth's first `onAuthStateChanged`; with no
+Firebase config it renders the setup banner instead. `App.vue` hosts header, router-view, player bar,
 and auth modal; four lazy routes (`/`, `/about`, `/manage` auth-guarded, `/song/:id`).
 Pinia stores: `user` (auth), `player` (owns the Howler `Howl` + a rAF progress loop),
 `modal`. All Firebase access goes through the single export bundle in
@@ -27,15 +28,15 @@ cursor on Home.
 Run `pwsh ./setup.ps1` once (installs Git, Node LTS, just, uv, Claude Code, gh —
 idempotent), reopen PowerShell, then `just install` (npm ci — also downloads the Cypress
 binary) and `just start`. The app is at `http://localhost:8115` (use `localhost`, not
-`127.0.0.1`). Expect HTTP 200 but a blank page until you paste a Firebase web-app config
-into `src/includes/firebase.js`. VSCode + Volar is the recommended IDE.
+`127.0.0.1`). Expect the "Firebase not configured" banner until you copy `.env.example`
+to `.env` and fill the `VITE_FIREBASE_*` values. VSCode + Volar is the recommended IDE.
 
 ## [03-development/workflow.md](03-development/workflow.md)
 
 Branch off `main`, edit with `just start` running (HMR), verify in the browser, then
 `just lint` + `just format` + `just test` before committing — no hooks or CI catch you.
-`just test` forces vitest into single-run mode; 2 spec files fail pre-existing (empty
-Firebase config, stale snapshot). Cypress e2e exists but runs via npm scripts against
+`just test` forces vitest into single-run mode; all 9 spec files pass without Firebase
+keys (specs stub the firebase bundle). Cypress e2e exists but runs via npm scripts against
 :4173, not a just recipe. Conventional Commits, no attribution footers, PRs into `main`.
 
 ## [04-deployment/deployment.md](04-deployment/deployment.md)
@@ -63,15 +64,15 @@ own cross-page state, `includes/` owns app-wide wiring like the firebase bundle 
 
 ## [06-troubleshooting/common-issues.md](06-troubleshooting/common-issues.md)
 
-Real symptoms with fixes: `127.0.0.1` refuses (IPv6 loopback — use `localhost`), blank page
-with `auth/invalid-api-key` (empty Firebase config), `--strictPort` exit when 8115 is
-taken, the 2 pre-existing spec failures, `npm run test:unit` never exiting, slow first
+Real symptoms with fixes: `127.0.0.1` refuses (IPv6 loopback — use `localhost`), the
+"Firebase not configured" banner (missing `.env`), `--strictPort` exit when 8115 is
+taken, `npm run test:unit` never exiting, slow first
 `npm ci` (Cypress binary), `dev-dist/` churn in `git status`, PATH not updating until a new
 shell, and the harmless >500 kB chunk warning.
 
 ## [07-faq/faq.md](07-faq/faq.md)
 
-Quick answers: why port 8115, why the page is blank, whether the Firebase config is a
-secret, why 2 specs fail, why Cypress isn't a just recipe, why the app opens in Malay,
+Quick answers: why port 8115, the setup banner, whether the Firebase config is a
+secret, why Cypress isn't a just recipe, why the app opens in Malay,
 what `dev-dist/`/`stats.html`/`template/` are, the unused `counter` store, the
 `.mcp.json.stub` pattern, and why `uv`/Python exist in a Vue repo.

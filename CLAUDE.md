@@ -8,13 +8,13 @@
 A Vue 3 + Vite music-streaming SPA (installable PWA): browse a paginated song playlist,
 register/log in, upload your own tracks, edit or delete them on a manage page, play songs
 through a persistent Howler.js player bar, and comment on songs. All data lives in Firebase
-(Auth + Firestore + Storage) — **the committed Firebase config is empty**, so the app shell
-serves but the UI won't mount in a browser until `src/includes/firebase.js` gets a real
-project config.
+(Auth + Firestore + Storage) — **the Firebase config comes from `VITE_FIREBASE_*` env vars**
+(`.env`, copied from `.env.example`); without them the app renders a "Firebase not
+configured" setup banner instead of mounting.
 
 - **Repo:** GitHub — `github.com/dxiiren/music-app`
-- **Runs locally only** — no CI/CD, no deployment target. `just start` serves on
-  `http://localhost:8115`.
+- **Live demo:** https://music-plum-chi.vercel.app (Vercel). No CI/CD in-repo; `just start`
+  serves locally on `http://localhost:8115`.
 
 ### Tech Stack Quick Reference
 
@@ -24,12 +24,12 @@ project config.
 | Build | **Vite 6** | `@vitejs/plugin-vue`, `vite-plugin-vue-devtools`, `@` alias → `src/` |
 | PWA | **vite-plugin-pwa** | autoUpdate SW, `devOptions.enabled` (writes `dev-dist/` during dev), manifest "Music App" |
 | Styling | **Tailwind CSS v4** | via `@tailwindcss/vite` plugin — no tailwind.config file |
-| Backend | **Firebase 11** (Auth, Firestore, Storage, Analytics) | export bundle `src/includes/firebase.js`; **config object is empty `{}`** — fill before Firebase features work |
+| Backend | **Firebase 11** (Auth, Firestore, Storage, Analytics) | export bundle `src/includes/firebase.js`; config from `VITE_FIREBASE_*` env vars (`src/includes/firebase-config.js`, empty-object fallback) — fill `.env` before Firebase features work |
 | Audio | **Howler 2** | `src/stores/player.js` wraps a `Howl`; rAF loop drives seek/duration display |
 | State | **Pinia 3** | stores: `user` (auth), `player` (playback), `modal` (auth modal), `counter` (scaffold, unused) |
 | Forms | **VeeValidate 4** + `@vee-validate/rules` | global plugin `src/includes/validation.js`; login/register + comment forms |
 | i18n | **vue-i18n 9** | locales `en` + `ms` (`src/locales/`); currency formatting on song page |
-| Tests | **Vitest 3** + jsdom + @vue/test-utils | 7 specs in `src/components/__tests__/`; script `test:unit` is `vitest --ui` — `just test` runs `npx vitest run` |
+| Tests | **Vitest 3** + jsdom + @vue/test-utils | 9 spec files in `src/components/__tests__/`, all green with no Firebase keys (firebase module stubbed); script `test:unit` is `vitest --ui` — `just test` runs `npx vitest run` |
 | E2E | **Cypress 14** | `cypress/e2e/`; baseUrl `http://localhost:4173` (vite preview) — not wired as a just recipe |
 | Quality | ESLint 9 flat config + Prettier 3 | `npm run lint` auto-fixes; `npm run format` writes `src/` |
 | Package manager | **npm** | Node LTS (verified on v24); `package-lock.json` committed |
@@ -41,16 +41,18 @@ project config.
 music-app/
   index.html, vite.config.js, vitest.config.js, cypress.config.js, eslint.config.js
   src/
-    main.js                 # createApp inside firebase.onAuthStateChanged (mount gated on auth init)
+    main.js                 # createApp inside firebase.onAuthStateChanged (mount gated on
+                            # auth init); renders the setup banner when unconfigured
     App.vue                 # AppHeader + <router-view> + AppPlayer + AppAuth modal
     router/index.js         # 4 routes + catch-all; requiresAuth guard on /manage
     views/                  # HomeView (playlist + infinite scroll), ManageView (upload + edit),
                             # SongView (player + comments), AboutView
     components/             # AppHeader, AppAuth + Auth/ (login/register), AppPlayer,
                             # Upload (drag-drop to Storage), SongItem, CompositionItem
-    components/__tests__/   # 7 Vitest specs (+ snapshot)
+    components/__tests__/   # 9 Vitest spec files (+ snapshot)
     stores/                 # user.js, player.js (Howler), modal.js, counter.js (unused)
-    includes/               # firebase.js (empty config!), validation.js, i18n.js,
+    includes/               # firebase.js (SDK bundle), firebase-config.js (env-driven),
+                            # not-configured.js (setup banner), validation.js, i18n.js,
                             # helper.js (formatTime), progress-bar.js, _global.js
     directives/icon.js      # v-icon Font Awesome helper
     locales/                # en.json, ms.json
@@ -79,9 +81,9 @@ music-app/
   command for something a recipe already covers.
 - `just stop` kills only THIS repo's server processes (matched by repo path on the command
   line) — safe to run while other projects are serving.
-- The Firebase config in `src/includes/firebase.js` is an empty `{}` — the dev server serves
-  the SPA shell fine, but in a browser the app fails to mount (`auth/invalid-api-key`) until a
-  real Firebase project config is filled in. Expected during infra-only work.
+- The Firebase config comes from `VITE_FIREBASE_*` env vars (copy `.env.example` to the
+  git-ignored `.env`). Without them the app renders a "Firebase not configured" banner
+  instead of mounting — expected during infra-only work. NEVER commit `.env` or real keys.
 - The PWA plugin runs in dev (`devOptions.enabled`) and regenerates the **tracked** `dev-dist/`
   files on every dev run — `git restore dev-dist` that churn; never commit it unless service-
   worker behavior intentionally changed.

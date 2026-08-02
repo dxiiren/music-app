@@ -1,8 +1,9 @@
 # Getting Started
 
 > **TL;DR** `pwsh ./setup.ps1` once, reopen PowerShell, `just install`, `just start`, open
-> `http://localhost:8115`. Expect an HTTP-200 page that stays blank until you paste a real
-> Firebase web-app config into `src/includes/firebase.js` — that's the app's only backend.
+> `http://localhost:8115`. Expect a "Firebase not configured" setup banner until you copy
+> `.env.example` to `.env` and fill the `VITE_FIREBASE_*` values — Firebase is the app's
+> only backend.
 
 ## 1. One-time machine setup
 
@@ -43,21 +44,22 @@ whose command line contains this repo's path.
 | Check | Expect |
 | --- | --- |
 | `curl.exe -s -o NUL -w "%{http_code}" http://localhost:8115/` | `200` |
-| Browser at `http://localhost:8115` | Blank page + console `auth/invalid-api-key` **until** the Firebase config is filled (next section) |
+| Browser at `http://localhost:8115` | "Firebase not configured" setup banner **until** `.env` is filled (next section) |
 | `just build` | exit 0; `dist/` with hashed chunks + `sw.js` (one >500 kB chunk warning is known — the Firebase SDK) |
-| `just test` | runs once and exits; 5 of 7 spec files pass (2 pre-existing failures — see [troubleshooting](../06-troubleshooting/common-issues.md)) |
+| `just test` | runs once and exits; all 9 spec files pass (no Firebase keys needed) |
 
 ## 5. Fill the Firebase config (needed for actual app work)
 
 1. Create a Firebase project at <https://console.firebase.google.com> with **Auth**
    (email/password), **Firestore**, and **Storage** enabled.
-2. Add a Web App to the project and copy its config object.
-3. Paste it into `firebaseConfig` in `src/includes/firebase.js` (currently `{}`).
-4. Reload — the app mounts, and register/login/upload/play all work against your project.
+2. Add a Web App to the project and copy its config values.
+3. Copy `.env.example` to `.env` (git-ignored) and fill each `VITE_FIREBASE_*` value.
+   `VITE_FIREBASE_MEASUREMENT_ID` is optional (Analytics).
+4. Restart the dev server (`just stop`, then `just start`) — the app mounts, and
+   register/login/upload/play all work against your project.
 
-A Firebase web config is not a server secret (security lives in Firebase rules), but this
-repo's convention is that each dev fills their own; don't commit a personal project's
-config without agreeing it's the shared one.
+A Firebase web config is not a server secret (security lives in Firebase rules), but each
+dev fills their own `.env` — the file is git-ignored and must never be committed.
 
 ## 6. IDE setup (from the original scaffold README)
 

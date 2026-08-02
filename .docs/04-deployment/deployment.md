@@ -1,18 +1,18 @@
 # Deployment
 
-> **TL;DR** Honest status: there is no deployment. No CI/CD pipeline, no hosting target —
-> the app runs locally via `just start`. `just build` produces a static, PWA-enabled
-> `dist/` that any static host could serve, but shipping it for real needs a shared
-> Firebase project config first.
+> **TL;DR** A live build is hosted on Vercel at <https://music-plum-chi.vercel.app>.
+> There is no CI/CD in this repo. `just build` produces a static, PWA-enabled `dist/`
+> that any static host can serve; the Firebase config is injected via `VITE_FIREBASE_*`
+> env vars at build time, so a real deployment needs those set in the host's env.
 
 ## Current state
 
 | Aspect | Status |
 | --- | --- |
-| CI/CD | None — no workflow files, no pipeline |
-| Hosting | None — local `just start` (dev) / `just preview` (built bundle) on :8115 |
-| Backend | Firebase (per-dev project; committed config is empty) |
-| Secrets | None committed; `.mcp.json` (Claude tooling) is git-ignored |
+| CI/CD | None in this repo — no workflow files, no pipeline |
+| Hosting | Vercel — <https://music-plum-chi.vercel.app>; local `just start` (dev) / `just preview` (built bundle) on :8115 |
+| Backend | Firebase (per-dev project via `.env`; deployed builds need `VITE_FIREBASE_*` set in the host's env or they show the setup banner) |
+| Secrets | None committed; `.env` and `.mcp.json` (Claude tooling) are git-ignored |
 
 ## What a build produces
 
@@ -26,14 +26,16 @@
 
 Verify a build locally with `just preview` → `http://localhost:8115`.
 
-## If this ever deploys
+## Hardening a real deployment
 
-1. Decide the shared Firebase project; fill its web config in
-   `src/includes/firebase.js` (or refactor to `import.meta.env` variables first — cleaner).
+1. The config is already env-driven (`src/includes/firebase-config.js` reads
+   `VITE_FIREBASE_*` — see `.env.example`). Set those variables in the host's project
+   settings (e.g. Vercel → Settings → Environment Variables) and rebuild; without them
+   the deployed site shows the "Firebase not configured" banner.
 2. Lock down Firestore/Storage security rules in that project (the client assumes
    auth-gated writes).
-3. Any static host works (SPA + service worker): Firebase Hosting is the natural fit.
-   Configure a history-mode fallback (rewrite all paths to `/index.html`).
+3. Any static host works (SPA + service worker) — configure a history-mode fallback
+   (rewrite all paths to `/index.html`).
 4. Add a CI step for `just lint` + `just test` + `just build` — nothing exists today.
 
 ## Related docs

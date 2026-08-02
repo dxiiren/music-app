@@ -59,9 +59,13 @@ format: _require-node
 
 # The npm script is `vitest --ui` (watch + browser UI); appending `--run` forces a
 # single headless pass so the recipe exits instead of hanging the terminal.
-# Run unit tests once (vitest --run; 2 specs fail pre-existing — see .docs/06).
+# The suite needs no Firebase keys (specs stub the firebase module).
+# Run unit tests once (vitest --run; all green).
 test *flags: _require-node
     npm run test:unit -- --run {{flags}}
+
+# NOTE: Cypress e2e (`npm run test:e2e`) is deliberately NOT a recipe — it drives
+# `vite preview` on :4173 and needs a filled .env; see .docs/03-development/workflow.md.
 
 # ─── Tools ───────────────────────────────────────────────
 

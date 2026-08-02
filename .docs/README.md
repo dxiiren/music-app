@@ -26,7 +26,7 @@
 
 | Document | What it covers |
 | --- | --- |
-| [`project-overview.md`](01-overview/project-overview.md) | What the app is: playlist, auth, upload/manage, player, comments, PWA — and the empty-Firebase-config caveat |
+| [`project-overview.md`](01-overview/project-overview.md) | What the app is: playlist, auth, upload/manage, player, comments, PWA — and the env-driven Firebase config |
 | [`architecture.md`](01-overview/architecture.md) | Boot gating, component tree, Pinia stores, Firestore data model, the Howler player loop, i18n |
 
 ## 02-setup
@@ -39,13 +39,13 @@
 
 | Document | What it covers |
 | --- | --- |
-| [`workflow.md`](03-development/workflow.md) | Branching, the edit/verify loop, lint + format, unit tests (and their 2 pre-existing failures), Cypress e2e, commit and PR conventions |
+| [`workflow.md`](03-development/workflow.md) | Branching, the edit/verify loop, lint + format, unit tests (all green, Firebase stubbed), Cypress e2e, commit and PR conventions |
 
 ## 04-deployment
 
 | Document | What it covers |
 | --- | --- |
-| [`deployment.md`](04-deployment/deployment.md) | Honest status: no CI/CD, runs locally; what `just build` produces (PWA bundle) and what deploying would take |
+| [`deployment.md`](04-deployment/deployment.md) | Live Vercel deployment, no CI/CD in-repo; what `just build` produces (PWA bundle) and how env vars reach a deploy |
 
 ## 05-reference
 
@@ -64,4 +64,4 @@
 
 | Document | What it covers |
 | --- | --- |
-| [`faq.md`](07-faq/faq.md) | Short answers: ports, the empty Firebase config, failing specs, the `ms` default locale, dev-dist churn, and more |
+| [`faq.md`](07-faq/faq.md) | Short answers: ports, the env-driven Firebase config, the test suite, the `ms` default locale, dev-dist churn, and more |
