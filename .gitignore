@@ -31,6 +31,11 @@ coverage
 .vercel
 /dist
 
+# Local env with real Firebase keys — commit .env.example only (NEVER .env)
+.env
+.env.*
+!.env.example
+
 # Claude Code — per-dev secrets & local overrides (NEVER commit)
 # Real MCP config holds live tokens; commit .mcp.json.stub instead.
 .mcp.json
